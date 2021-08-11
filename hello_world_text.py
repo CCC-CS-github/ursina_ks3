@@ -1,7 +1,7 @@
 """
 Hello world!
-3D rotating planet
-Ursina Lesson 1
+3D rotating planet - with text
+Ursina Lesson 1.1
 """
 
 from ursina import *
