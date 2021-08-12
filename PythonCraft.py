@@ -6,21 +6,25 @@ NB. press shift+q to quit
 from ursina import *
 from ursina.prefabs.first_person_controller import FirstPersonController
 # Import the Perlin Noise module for creating terrain.
-from perlin_noise import PerlinNoise
+from perlin_terrain import Terrain
 
 # Create Window. Set background colour to sky blue.
 app = Ursina()
 window.color=color.rgb(0,200,255)
 
-# A basic 2D flat ground.
-basicFloor = Entity(model='quad',scale=2000,rotation_x=90,
-    texture='grass.png',texture_scale=(2000/12,2000/12))
+# Initialise our terrain.
+cambridge = Terrain(amplitude=0,frequency=0)
 
 # Setup our first-person character.
 steve = FirstPersonController()
 steve.cursor.visible=False
-steve.gravity=0
+# steve.gravity=0.6 # Maybe we leave this out (concision).
 steve.speed = 0.01
+
+def input(key):
+    if key == 'escape':
+        if steve.enabled: steve.disable()
+        else: steve.enable()
 
 # Start the program :)
 app.run()
