@@ -13,13 +13,19 @@ app = Ursina()
 window.color=color.rgb(0,200,255)
 
 # Initialise our terrain.
-cambridge = Terrain(amplitude=0,frequency=0)
+cambridge = Terrain()
 
 # Setup our first-person character.
 steve = FirstPersonController()
 steve.cursor.visible=False
+steve.gravity=0
+steve.grav_acc = 0.2
+steve.grav_speed = 0
 # steve.gravity=0.6 # Maybe we leave this out (concision).
-steve.speed = 0.01
+# steve.speed = 0.01
+
+def update():
+    cambridge.controlCharacter(steve)
 
 def input(key):
     if key == 'escape':
