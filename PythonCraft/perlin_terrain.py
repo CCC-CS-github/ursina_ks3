@@ -15,8 +15,9 @@ class Terrain():
         self.noise = PerlinNoise(seed=self.seed,octaves=1)
         self.bedrock = -9 # What is base height?
 
-        self.blocks = []
-        self.size=10
+        # self.blocks = []
+        self.size=10        # I.e. width.
+        self.terrainSize=10 # Ditto.
 
         self.chunks = []
 
@@ -25,7 +26,7 @@ class Terrain():
                             y=self.bedrock-1-0.01,
                             rotation_x=90,
                             texture='grass.png',
-                            texture_scale=(2000/12,2000/12),
+                            texture_scale=(20/12,20/12),
                             collider='box')
 
         # *** position hack
@@ -40,25 +41,26 @@ class Terrain():
         
         self.displayStartMessage()
 
-        self.chunks.append(Entity(model='block.obj',
-                        texture='block_texture.png'))
+        self.chunks.append(Entity(model='block',
+                        texture='block_texture'))
 
         # Catch division by zero.
         if self.freq <= 0: self.freq = 24
         
         for i in range(0,self.size*self.size):
-            b=Entity(   model='block.obj',
-                        texture='block_texture.png')
+            b=Entity(   model='block',
+                        texture='block_texture')
             b.parent=self.chunks[-1]
             b.y=self.bedrock
             # *** position hack!
-            b.x=floor((self.pos/10))*self.size+floor(i/self.size)
-            b.z=floor((self.pos%10))*self.size+floor(i%self.size)
+            b.x=floor((self.pos/self.terrainSize))*self.size+floor(i/self.size)
+            b.z=floor((self.pos%self.terrainSize))*self.size+floor(i%self.size)
             b.y = floor((self.noise([b.x/self.freq,
                             b.z/self.freq]))*self.amp)
-            tint=randint(200,255)
+            tint=randint(150,255)
             b.color=color.rgb(tint,tint,tint)
             b.rotation_y=randint(0,3)*90
+            b.disable()
             # self.blocks.append(b)
 
         # ***

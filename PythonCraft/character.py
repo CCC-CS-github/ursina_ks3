@@ -41,7 +41,7 @@ class Character():
 
         # *** Hack
         if time.time()-self.prevTime >= 0:
-            if _terrain.pos<100:
+            if _terrain.pos<_terrain.terrainSize*_terrain.terrainSize:
                 _terrain.generateTerrain()
             self.prevTime=time.time()
             
