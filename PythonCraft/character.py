@@ -9,10 +9,10 @@ which is currently in the perlin_terrain module.
 from ursina.prefabs.first_person_controller import FirstPersonController
 
 class Character():
-    def __init__(self):
+    def __init__(self,speed=2):
         self.character = FirstPersonController()
         self.character.cursor.visible=False
-        # self.character.speed=0.01
+        self.character.speed=speed
         self.character.gravity=0
         self.character.grav_acc=0.2
         self.character.grav_speed=0
@@ -39,8 +39,8 @@ class Character():
         character_height=1.8
 
         # Need to adjust to correct position...
-        x = _character.x - 0.5
-        z = _character.z + 0.5
+        x = _character.x + 0.5
+        z = _character.z - 0.5
         y = _character.y
 
         # What y is the terrain at this position?

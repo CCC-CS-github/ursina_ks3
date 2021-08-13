@@ -1,5 +1,8 @@
 """
-Simple Minecraft in Python - 'PythonCraft' - Lesson 2
+private dev for the PythonCraft code -- i.e. in case
+I break the original, PythonCraft.py.
+Also -- I want that original kept to its 30 lines,
+esp. since I've taken screenshot and used on presentation.
 """
 # Import the ursina module, and its First Person character.
 from ursina import *
@@ -15,7 +18,7 @@ window.color=color.rgb(0,200,255)
 cambridge = Terrain()
 
 # Initialise and set up our first-person character.
-steve = Character(speed=0.01)
+steve = Character()
 
 # Our main program update loop.
 def update():
