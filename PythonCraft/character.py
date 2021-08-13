@@ -25,7 +25,7 @@ class Character():
         self.locationMessage = Text(text='xyz',
                                     origin=(0,0),
                                     background=False)
-
+        # Hack
         self.prevTime = time.time()
 
     def input(self,key):
@@ -39,6 +39,7 @@ class Character():
 
         self.displayLocation()
 
+        # *** Hack
         if time.time()-self.prevTime >= 0:
             if _terrain.pos<100:
                 _terrain.generateTerrain()
