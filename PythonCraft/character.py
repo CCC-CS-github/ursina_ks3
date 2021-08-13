@@ -19,8 +19,8 @@ class Character():
         self.character.gravity=0.0
         self.character.grav_acc=0.2
         self.character.grav_speed=0
-        self.character.x = 50.5
-        self.character.z = 50.5
+        self.character.x = 8
+        self.character.z = 32
         self.character.y = 32
         self.locationMessage = Text(text='xyz',
                                     origin=(0,0),
@@ -40,7 +40,7 @@ class Character():
         self.displayLocation()
 
         # *** Hack
-        if time.time()-self.prevTime >= 0:
+        if time.time()-self.prevTime >= 0.02:
             if _terrain.pos<_terrain.terrainSize*_terrain.terrainSize:
                 _terrain.generateTerrain()
             self.prevTime=time.time()
@@ -57,14 +57,15 @@ class Character():
         character_height=1.8
 
         # Need to adjust to correct position...
-        x = (_character.x+0.1)
-        z = (_character.z+0.1)
+        x = floor(_character.x+1)
+        z = floor(_character.z+1)
         y = _character.y
 
         # What y is the terrain at this position?
         target_y = floor((_terrain.noise([x/_terrain.freq,
                             z/_terrain.freq]))*_terrain.amp +
                             character_height)  
+        target_y+=_terrain.bedrock
         
         # How far are we from the target y?
         target_dist = target_y - y
