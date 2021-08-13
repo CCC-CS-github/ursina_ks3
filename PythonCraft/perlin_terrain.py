@@ -16,7 +16,9 @@ class Terrain():
         self.bedrock = -9 # What is base height?
 
         self.blocks = []
-        self.size=32
+        self.size=10
+
+        self.chunks = []
 
         # A basic 2D flat ground.
         self.basicFloor = Entity(model='quad',scale=2000,
@@ -26,30 +28,44 @@ class Terrain():
                             texture_scale=(2000/12,2000/12),
                             collider='box')
 
+        # *** position hack
+        self.pos=0
+
         if generateOnStart:
             self.generateTerrain()
 
     def generateTerrain(self):
         from numpy import floor
         from random import randint
-
+        
         self.displayStartMessage()
+
+        self.chunks.append(Entity(model='block.obj',
+                        texture='block_texture.png'))
 
         # Catch division by zero.
         if self.freq <= 0: self.freq = 24
-
-        for i in range(1,self.size*self.size):
+        
+        for i in range(0,self.size*self.size):
             b=Entity(   model='block.obj',
                         texture='block_texture.png')
+            b.parent=self.chunks[-1]
             b.y=self.bedrock
-            b.x=i/self.size-floor(self.size/2)
-            b.z=i%self.size-floor(self.size/2)
+            # *** position hack!
+            b.x=floor((self.pos/10))*self.size+floor(i/self.size)
+            b.z=floor((self.pos%10))*self.size+floor(i%self.size)
             b.y = floor((self.noise([b.x/self.freq,
                             b.z/self.freq]))*self.amp)
             tint=randint(200,255)
             b.color=color.rgb(tint,tint,tint)
             b.rotation_y=randint(0,3)*90
-            self.blocks.append(b)            
+            # self.blocks.append(b)
+
+        # ***
+        self.chunks[-1].combine()
+
+        # *** position hack
+        self.pos+=1
 
     def displayStartMessage(self):
         moo=Text(   text='<bold><black>Generating terrain...',
