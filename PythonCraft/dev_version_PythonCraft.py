@@ -15,10 +15,10 @@ app = Ursina()
 window.color=color.rgb(0,200,255)
 
 # Initialise our terrain.
-cambridge = Terrain()
+cambridge = Terrain(frequency=48,amplitude=32)
 
 # Initialise and set up our first-person character.
-steve = Character()
+steve = Character(speed=6)
 
 # Our main program update loop.
 def update():

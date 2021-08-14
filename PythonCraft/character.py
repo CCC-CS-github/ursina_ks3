@@ -19,8 +19,8 @@ class Character():
         self.character.gravity=0.0
         self.character.grav_acc=0.2
         self.character.grav_speed=0
-        self.character.x = 8
-        self.character.z = 32
+        self.character.x = 6
+        self.character.z = 53
         self.character.y = 32
         self.locationMessage = Text(text='xyz',
                                     origin=(0,0),
@@ -53,12 +53,12 @@ class Character():
         # So, we want to reference character variables
         # directly instead of through _character!
         _character = self.character
-        step_height=3
+        step_height=5
         character_height=1.8
 
         # Need to adjust to correct position...
-        x = floor(_character.x+1)
-        z = floor(_character.z+1)
+        x = floor(_character.x)+1.5
+        z = floor(_character.z)+1.5
         y = _character.y
 
         # What y is the terrain at this position?

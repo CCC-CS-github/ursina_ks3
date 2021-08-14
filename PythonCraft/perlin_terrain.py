@@ -18,8 +18,8 @@ class Terrain():
         # self.blocks = []
         self.blockMod = 'block.obj'
         self.blockTex = 'block_texture.png'
-        self.size=3        # I.e. width.
-        self.terrainSize=32 # Ditto.
+        self.size=6        # I.e. width.
+        self.terrainSize=12 # Ditto.
 
         self.chunks = []
 
@@ -53,17 +53,17 @@ class Terrain():
         for i in range(0,self.size*self.size):
             b=Entity(   model=self.blockMod,
                         texture=self.blockTex)
-            b.parent=self.chunks[-1]
             b.y=self.bedrock
             # *** position hack!
-            b.x=floor((self.pos/self.terrainSize))*self.size+floor(i/self.size)
-            b.z=floor((self.pos%self.terrainSize))*self.size+floor(i%self.size)
+            b.x=floor((self.pos/self.terrainSize)*self.size)+floor(i/self.size)
+            b.z=floor((self.pos%self.terrainSize)*self.size)+floor(i%self.size)
             b.y = floor((self.noise([b.x/self.freq,
                             b.z/self.freq]))*self.amp)
             b.y += self.bedrock
             tint=randint(150,255)
             b.color=color.rgb(tint,tint,tint)
             b.rotation_y=randint(0,3)*90
+            b.parent=self.chunks[-1]
             b.disable()
             # self.blocks.append(b)
 
