@@ -57,13 +57,13 @@ class Character():
         character_height=1.8
 
         # Need to adjust to correct position...
-        x = floor(_character.x)+1.5
-        z = floor(_character.z)+1.5
+        x = _character.x
+        z = _character.z
         y = _character.y
 
         # What y is the terrain at this position?
-        target_y = floor((_terrain.noise([x/_terrain.freq,
-                            z/_terrain.freq]))*_terrain.amp +
+        target_y = (floor((_terrain.noise([x/_terrain.freq,
+                            z/_terrain.freq]))*_terrain.amp) +
                             character_height)  
         target_y+=_terrain.bedrock
         

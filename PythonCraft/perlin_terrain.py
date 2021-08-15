@@ -50,13 +50,13 @@ class Terrain():
         # Catch division by zero.
         if self.freq <= 0: self.freq = 24
         
-        for i in range(0,self.size*self.size):
+        for i in range(self.size*self.size):
             b=Entity(   model=self.blockMod,
                         texture=self.blockTex)
             b.y=self.bedrock
             # *** position hack!
-            b.x=floor((self.pos/self.terrainSize)*self.size)+floor(i/self.size)
-            b.z=floor((self.pos%self.terrainSize)*self.size)+floor(i%self.size)
+            b.x=floor((self.pos/self.terrainSize))*self.size+floor(i/self.size)
+            b.z=floor((self.pos%self.terrainSize))*self.size+floor(i%self.size)
             b.y = floor((self.noise([b.x/self.freq,
                             b.z/self.freq]))*self.amp)
             b.y += self.bedrock
