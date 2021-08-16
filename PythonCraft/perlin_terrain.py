@@ -39,6 +39,14 @@ class Terrain():
             self.generateTerrain()
 
     def generateTerrain(self):
+        """
+        NB. terrain generation is called from the
+        character module's update function.
+        Would be better, perhaps, to call the
+        character's movement from the terrain module.
+        We do not call the terrain generation from 
+        the main module in order to keep it concise.
+        """
         from numpy import floor
         from random import randint
         
@@ -48,7 +56,9 @@ class Terrain():
                         texture=self.blockTex))
 
         # Catch division by zero.
-        if self.freq <= 0: self.freq = 24
+        if self.freq <= 0: 
+            self.freq = 24
+            print('frequency must be greater than zero. Thank you.')
         
         for i in range(self.size*self.size):
             b=Entity(   model=self.blockMod,
