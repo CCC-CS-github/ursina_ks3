@@ -40,7 +40,7 @@ class Character():
         self.displayLocation()
 
         # *** Hack
-        if time.time()-self.prevTime >= 0.02:
+        if time.time()-self.prevTime >= 0.0:
             if _terrain.pos<_terrain.terrainSize*_terrain.terrainSize:
                 _terrain.generateTerrain()
             self.prevTime=time.time()
@@ -62,10 +62,15 @@ class Character():
         y = _character.y
 
         # What y is the terrain at this position?
-        target_y = (floor((_terrain.noise([x/_terrain.freq,
-                            z/_terrain.freq]))*_terrain.amp) +
-                            character_height)  
-        target_y+=_terrain.bedrock
+        # NB their are two modes of perlin terrain -
+        # ordinary (one octave) and advanced (three).
+        target_y=_terrain.bedrock
+        if _terrain.advancedTerrain==True:
+            target_y += _terrain.advancedPerlin(x,z)
+        else:
+            target_y += _terrain.getPerlin(x,z)
+
+        target_y += character_height  
         
         # How far are we from the target y?
         target_dist = target_y - y

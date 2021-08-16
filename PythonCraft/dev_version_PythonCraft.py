@@ -13,9 +13,14 @@ from character import Character
 # Create Window. Set background colour to sky blue.
 app = Ursina()
 window.color=color.rgb(0,200,255)
+# ***
+# scene.fog_density = 0.02
+# scene.fog.color = rgb(0,200,255)
 
 # Initialise our terrain.
-cambridge = Terrain(frequency=48,amplitude=32)
+# cambridge = Terrain(frequency=48,amplitude=32)
+# ***
+cambridge = Terrain(advanced=True)
 
 # Initialise and set up our first-person character.
 steve = Character(speed=6)

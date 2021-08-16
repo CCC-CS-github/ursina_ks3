@@ -3,23 +3,37 @@ Simple Perlin noise terrain generator.
 """
 from perlin_noise import PerlinNoise
 from ursina import Entity, Text, color
+from numpy import floor
 
 class Terrain():
     def __init__(self, generateOnStart=True,
                     amplitude=16,
                     frequency=24,
-                    seed=2021):
+                    seed=2021,
+                    advanced=False,
+                    a1=64,a2=32,a3=4,
+                    f1=512,f2=128,f3=24):
         self.freq = frequency
         self.amp = amplitude
         self.seed = seed
         self.noise = PerlinNoise(seed=self.seed,octaves=1)
         self.bedrock = -9 # What is base height?
 
-        # self.blocks = []
+        # Advanced-mode overloading.
+        self.advancedTerrain = advanced
+        if advanced==True:
+            self.amp1 = a1
+            self.amp2 = a2
+            self.amp3 = a3
+            self.freq1 = f1
+            self.freq2 = f2
+            self.freq3 = f3
+
+        self.blocks = []
         self.blockMod = 'block.obj'
         self.blockTex = 'block_texture.png'
-        self.size=6        # I.e. width.
-        self.terrainSize=12 # Ditto.
+        self.size=4        # I.e. width. Default 6.
+        self.terrainSize=16 # Ditto. Default 12.
 
         self.chunks = []
 
@@ -38,13 +52,6 @@ class Terrain():
         if generateOnStart:
             self.generateTerrain()
 
-    def doAdvancedTerrain(self,   seed,   amp1,amp2,amp3,
-                                        freq1,fre2,fre2):
-        """
-        First, we 
-        """
-        
-
     def generateTerrain(self):
         """
         NB. terrain generation is called from the
@@ -52,9 +59,8 @@ class Terrain():
         Would be better, perhaps, to call the
         character's movement from the terrain module.
         We do not call the terrain generation from 
-        the main module in order to keep it concise.
+        the main module in order to keep that concise.
         """
-        from numpy import floor
         from random import randint
         
         # self.displayStartMessage()
@@ -74,9 +80,16 @@ class Terrain():
             # *** position hack!
             b.x=floor((self.pos/self.terrainSize))*self.size+floor(i/self.size)
             b.z=floor((self.pos%self.terrainSize))*self.size+floor(i%self.size)
-            b.y = floor((self.noise([b.x/self.freq,
-                            b.z/self.freq]))*self.amp)
-            b.y += self.bedrock
+            
+            # If using basic terrain, just use one
+            # octave of perlin noise.
+            # If using advanced, pass over three octaves.
+            if self.advancedTerrain == False:
+                b.y += self.getPerlin(b.x,b.z)
+            else:
+                b.y += self.advancedPerlin(b.x,b.z)
+            
+            # b.y += self.bedrock
             tint=randint(150,255)
             b.color=color.rgb(tint,tint,tint)
             b.rotation_y=randint(0,3)*90
@@ -89,6 +102,20 @@ class Terrain():
 
         # *** position hack
         self.pos+=1
+
+    def advancedPerlin(self,_x,_z):
+        y = 0
+        y += ((self.noise([_x/self.freq1,
+                    _z/self.freq1]))*self.amp1)
+        y += ((self.noise([_x/self.freq2,
+                    _z/self.freq2]))*self.amp2)
+        y += ((self.noise([_x/self.freq3,
+                    _z/self.freq3]))*self.amp3)
+        return floor(y)
+
+    def getPerlin(self,_x,_z):
+        return floor((  self.noise([_x/self.freq,
+                        _z/self.freq]))*self.amp)
 
     def displayStartMessage(self):
         moo=Text(   text='<bold><black>Generating terrain...',
