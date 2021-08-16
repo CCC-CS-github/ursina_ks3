@@ -38,6 +38,13 @@ class Terrain():
         if generateOnStart:
             self.generateTerrain()
 
+    def doAdvancedTerrain(self,   seed,   amp1,amp2,amp3,
+                                        freq1,fre2,fre2):
+        """
+        First, we 
+        """
+        
+
     def generateTerrain(self):
         """
         NB. terrain generation is called from the
