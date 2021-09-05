@@ -4,6 +4,8 @@ Simple Perlin noise terrain generator.
 from perlin_noise import PerlinNoise
 from ursina import Entity, Text, color
 from numpy import floor
+from random import randint
+import fast_combine as fc
 
 class Terrain():
     def __init__(self, generateOnStart=True,
@@ -36,7 +38,11 @@ class Terrain():
         self.terrainSize=16 # Ditto. Default 12.
 
         self.chunks = []
+        self.block = []
+        self.currentChunk = 0
 
+        self.setupBlocks()
+        self.setupChunks()
 
         # A basic 2D flat ground.
         self.basicFloor = Entity(model='quad',scale=2000,
@@ -52,6 +58,22 @@ class Terrain():
         if generateOnStart:
             self.generateTerrain()
 
+    def setupBlocks(self):
+        for i in range(self.size*self.size):
+            b=Entity(   model=self.blockMod,
+                        texture=self.blockTex)
+            b.disable()
+            self.blocks.append(b)
+    
+    def setupChunks(self):
+        for i in range(self.terrainSize*self.terrainSize):
+            b=Entity(   model=self.blockMod,
+                        texture=self.blockTex)
+            b.disable()
+            self.chunks.append(b)
+        
+        
+
     def generateTerrain(self):
         """
         NB. terrain generation is called from the
@@ -61,12 +83,14 @@ class Terrain():
         We do not call the terrain generation from 
         the main module in order to keep that concise.
         """
-        from random import randint
+        
         
         # self.displayStartMessage()
 
-        self.chunks.append(Entity(model=self.blockMod,
-                        texture=self.blockTex))
+        # First, create a parent Entity that will combine
+        # the terrain blocks.
+        # self.chunks.append(Entity(  model=self.blockMod,
+        #                             texture=self.blockTex))
 
         # Catch division by zero.
         if self.freq <= 0: 
@@ -74,8 +98,9 @@ class Terrain():
             print('frequency must be greater than zero. Thank you.')
         
         for i in range(self.size*self.size):
-            b=Entity(   model=self.blockMod,
-                        texture=self.blockTex)
+            # b=Entity(   model=self.blockMod,
+            #             texture=self.blockTex)
+            b = self.blocks[i]
             b.y=self.bedrock
             # *** position hack!
             b.x=floor((self.pos/self.terrainSize))*self.size+floor(i/self.size)
@@ -93,12 +118,14 @@ class Terrain():
             tint=randint(150,255)
             b.color=color.rgb(tint,tint,tint)
             b.rotation_y=randint(0,3)*90
-            b.parent=self.chunks[-1]
+            b.parent=self.chunks[self.currentChunk]
             b.disable()
-            # self.blocks.append(b)
 
         # ***
-        self.chunks[-1].combine()
+        fc.combine(self.chunks[self.currentChunk],auto_destroy=False)
+        self.chunks[self.currentChunk].enable()
+
+        self.currentChunk += 1
 
         # *** position hack
         self.pos+=1

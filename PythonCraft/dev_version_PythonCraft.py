@@ -21,8 +21,8 @@ window.color=color.rgb(0,200,255)
 # cambridge = Terrain(frequency=48,amplitude=32)
 # ***
 cambridge = Terrain(advanced=True,
-                    a1=100,f1=124,
-                    a2=50,f2=80,
+                    a1=100,f1=212,
+                    a2=50,f2=180,
                     a3=1,f3=1,
                     seed=1984)
 
