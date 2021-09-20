@@ -22,7 +22,7 @@ class Character():
         self.character_height=1.8
         self.character.x = 25
         self.character.z = 25
-        self.character.y = 32-999 # i.e. minus bedrock.
+        self.character.y = 64-999 # i.e. minus bedrock.
         self.locationMessage = Text(text='xyz',
                                     origin=(0,0),
                                     background=False)
@@ -41,8 +41,8 @@ class Character():
         self.displayLocation()
 
         # *** Hack
-        if time.time()-self.prevTime >= 0.04:
-            for i in range(16):
+        if time.time()-self.prevTime >= 0.004:
+            for i in range(1):
                 if _terrain.pos<_terrain.terrainSize*_terrain.terrainSize:
                     _terrain.generateTerrain()
             self.prevTime=time.time()

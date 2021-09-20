@@ -35,7 +35,7 @@ class Terrain():
         self.blockMod = 'block.obj'
         self.blockTex = 'block_texture.png'
         self.size=4        # I.e. width. Default 6.
-        self.terrainSize=32 # Ditto. Default 12.
+        self.terrainSize=16 # Ditto. Default 12.
 
         self.chunks = []
         self.block = []
