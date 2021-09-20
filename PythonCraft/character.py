@@ -53,12 +53,12 @@ class Character():
         # So, we want to reference character variables
         # directly instead of through _character!
         _character = self.character
-        step_height=5
-        character_height=1.8
+        step_height=3
+        character_height=2
 
         # Need to adjust to correct position...
-        x = _character.x
-        z = _character.z
+        x = floor(_character.x + 0.5)
+        z = floor(_character.z + 0.5)
         y = _character.y
 
         # What y is the terrain at this position?
