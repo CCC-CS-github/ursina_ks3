@@ -1,8 +1,7 @@
 """
 private dev for the PythonCraft code -- i.e. in case
 I break the original, PythonCraft.py.
-Also -- I want that original kept to its 30 lines,
-esp. since I've taken screenshot and used on presentation.
+Also -- I want the original kept to approx. 30 lines.
 """
 # Import the ursina module, and its First Person character.
 from ursina import *
