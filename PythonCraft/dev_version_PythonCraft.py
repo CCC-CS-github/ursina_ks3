@@ -20,10 +20,10 @@ window.color=color.rgb(0,200,255)
 # cambridge = Terrain(frequency=48,amplitude=32)
 # ***
 cambridge = Terrain(advanced=True,
-                    a1=100,f1=212,
-                    a2=50,f2=180,
-                    a3=1,f3=1,
-                    seed=1984)
+                    a1=64,f1=128,
+                    a2=12,f2=120,
+                    a3=3,f3=9,
+                    seed=99)
 
 # Initialise and set up our first-person character.
 steve = Character(speed=6)

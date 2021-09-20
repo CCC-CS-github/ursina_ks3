@@ -19,9 +19,10 @@ class Character():
         self.character.gravity=0.0
         self.character.grav_acc=0.2
         self.character.grav_speed=0
-        self.character.x = 6
-        self.character.z = 53
-        self.character.y = 32
+        self.character_height=1.8
+        self.character.x = 25
+        self.character.z = 25
+        self.character.y = 32-999 # i.e. minus bedrock.
         self.locationMessage = Text(text='xyz',
                                     origin=(0,0),
                                     background=False)
@@ -40,9 +41,10 @@ class Character():
         self.displayLocation()
 
         # *** Hack
-        if time.time()-self.prevTime >= 0.0:
-            if _terrain.pos<_terrain.terrainSize*_terrain.terrainSize:
-                _terrain.generateTerrain()
+        if time.time()-self.prevTime >= 0.04:
+            for i in range(16):
+                if _terrain.pos<_terrain.terrainSize*_terrain.terrainSize:
+                    _terrain.generateTerrain()
             self.prevTime=time.time()
             
 
@@ -54,7 +56,6 @@ class Character():
         # directly instead of through _character!
         _character = self.character
         step_height=3
-        character_height=2
 
         # Need to adjust to correct position...
         x = floor(_character.x + 0.5)
@@ -70,7 +71,7 @@ class Character():
         else:
             target_y += _terrain.getPerlin(x,z)
 
-        target_y += character_height  
+        target_y += self.character_height  
         
         # How far are we from the target y?
         target_dist = target_y - y
@@ -87,9 +88,9 @@ class Character():
     
     def displayLocation(self):
         self.locationMessage.text=('<bold><white>'+
-                    str(int(self.character.x)) + ' ' +
-                    str(int(self.character.y)) + ' ' +
-                    str(int(self.character.z)))
+                    'x '+str(int(self.character.x)) + ' ' +
+                    'y '+str(int(self.character.y+999)) + ' ' +
+                    'z '+str(int(self.character.z)))
         
         self.locationMessage.scale=2
         self.locationMessage.create_background()

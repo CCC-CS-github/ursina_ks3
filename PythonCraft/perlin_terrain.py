@@ -19,7 +19,7 @@ class Terrain():
         self.amp = amplitude
         self.seed = seed
         self.noise = PerlinNoise(seed=self.seed,octaves=1)
-        self.bedrock = -9 # What is base height?
+        self.bedrock = -999 # What is base height?
 
         # Advanced-mode overloading.
         self.advancedTerrain = advanced
@@ -35,7 +35,7 @@ class Terrain():
         self.blockMod = 'block.obj'
         self.blockTex = 'block_texture.png'
         self.size=4        # I.e. width. Default 6.
-        self.terrainSize=16 # Ditto. Default 12.
+        self.terrainSize=32 # Ditto. Default 12.
 
         self.chunks = []
         self.block = []
@@ -46,12 +46,13 @@ class Terrain():
 
         # A basic 2D flat ground.
         self.basicFloor = Entity(model='quad',scale=2000,
-                            y=self.bedrock+0.1-self.amp/2,
+                            y=self.bedrock-100,
                             rotation_x=90,
-                            texture='grass.png',
+                            
+                            color=color.cyan,
                             texture_scale=(20/12,20/12),
                             collider='box')
-
+        # texture='grass.png',
         # *** position hack
         self.pos=0
 
